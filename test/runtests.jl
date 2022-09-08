@@ -38,10 +38,8 @@ using Test
     #print(psi0)
 
     # ゲート作成
-    H0 = Gate("H", 1)
-    add!(circuit, H0)
-    H1 = Gate("H", 2)
-    add!(circuit, H1)
+    add!(circuit, Gate("H", 1))
+    add!(circuit, Gate("H", 2))
     gates = JqTensor.optimize(circuit)
 
     # 期待値
