@@ -1,7 +1,7 @@
 using ITensors
 using JqTensor
 
-N = 5
+N = 8
 # Qubit設定
 circuit = Circuit(N)
 psi0 = createZeroState(circuit.state.sites)
