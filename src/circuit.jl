@@ -18,9 +18,12 @@ end
 
 function optimize(circuit::Circuit)
     os = OpSum()
+    gates = []
     for gate in circuit.gate_list
-        os += (gate.name, gate.index)
+        #os += (gate.name, gate.index)
+        push!(gates, gate.name, gate.index)
     end
+    os += Tuple(gates)
     return MPO(ComplexF64, os, circuit.state.sites)
 end
 
