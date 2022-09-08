@@ -83,7 +83,7 @@ include("circuit.jl")
 export Circuit,
     add!,
     optimize,
-    randomGate,
+    createRandomGate,
     apply,
     expect,
     showStateVector

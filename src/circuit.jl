@@ -27,9 +27,24 @@ function optimize(circuit::Circuit)
     return MPO(ComplexF64, os, circuit.state.sites)
 end
 
-# TODO: randomMPO()が正しいゲート（ユニタリ行列）を作成するか？
-function randomGate(circuit::Circuit)
-    return randomMPO(circuit.state.sites)
+# # TODO: randomMPO()が正しいゲート（ユニタリ行列）を作成するか？
+# function createRandomGate(circuit::Circuit)
+#     return randomMPO(circuit.state.sites)
+# end
+
+function createRandomGate(circuit::Circuit, depth::Int)
+    os = OpSum()
+    gateType = ["X", "Y", "Z", "T", "H"]
+    dim = size(circuit.state.sites, 1)
+    # print("dim: $dim")
+    # print("(dim % i): $(dim % i)")
+    gates = []
+    for i = 1:depth
+        push!(gates, gateType[rand(1:5)], (dim % i) + 1)
+    end
+    os += Tuple(gates)
+    print(gates)
+    return MPO(ComplexF64, os, circuit.state.sites)
 end
 
 function apply(mpo::MPO, mps::MPS)

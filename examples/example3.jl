@@ -4,15 +4,11 @@ using JqTensor
 N = 5
 # Qubit設定
 circuit = Circuit(N)
-#psi0 = createZeroState(circuit.state.sites)
-psi0 = JqTensor.createRandomState(circuit.state.sites)
+psi0 = createZeroState(circuit.state.sites)
 #print(psi0)
 
 # ゲート作成
-# JqTensor.add!(circuit, Gate("H", 1))
-# JqTensor.add!(circuit, Gate("H", 2))
-# gates = JqTensor.optimize(circuit)
-gates = JqTensor.createRandomGate(circuit)
+gates = JqTensor.createRandomGate(circuit, 10)
 
 # 期待値
 expect_value = JqTensor.expect(gates, psi0)
