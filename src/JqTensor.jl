@@ -76,15 +76,17 @@ export Gate
 
 include("state.jl")
 export State,
-    create_zero_state
+    createZeroState,
+    createRandomState
 
 include("circuit.jl")
 export Circuit,
     add!,
     optimize,
+    randomGate,
     apply,
     expect,
-    show_state_vector
+    showStateVector
 
 
 end

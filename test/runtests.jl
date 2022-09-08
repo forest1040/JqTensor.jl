@@ -34,7 +34,7 @@ using Test
     N = 3
     # Qubit設定
     circuit = Circuit(N)
-    psi0 = create_zero_state(circuit.state.sites)
+    psi0 = createZeroState(circuit.state.sites)
     #print(psi0)
 
     # ゲート作成
@@ -51,6 +51,6 @@ using Test
     #println("psi: $psi")
 
     # 状態ベクトル表示
-    show_state_vector(psi)
+    showStateVector(psi)
 
 end
