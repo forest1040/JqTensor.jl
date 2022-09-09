@@ -89,7 +89,7 @@ export Circuit,
     optimize,
     createRandomGate,
     apply,
-    expect,
+    #expect,
     showStateVector
 
 export say_hello5

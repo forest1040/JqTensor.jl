@@ -42,7 +42,7 @@ function optimize(circuit::Circuit)
         end
         push!(os, Tuple(g))
     end
-    return MPO(ops(os, circuit.state.sites))
+    return ops(os, circuit.state.sites)
 end
 
 # TODO: randomMPO()が正しいゲート（ユニタリ行列）を作成するか？
@@ -69,10 +69,14 @@ function apply(mpo::MPO, mps::MPS)
     return ITensors.apply(mpo, mps; cutoff=1e-15)
 end
 
-# TODO: MPO から opsに変更したため動かなくなった。。
-function expect(mpo::MPO, mps::MPS)
-    return inner(mps', mpo, mps)
+function apply(tensors::Vector{ITensor}, mps::MPS)
+    return ITensors.apply(tensors, mps; cutoff=1e-15)
 end
+
+# # TODO: MPO から opsに変更したため動かなくなった。。
+# function expect(mpo::MPO, mps::MPS)
+#     return inner(mps', mpo, mps)
+# end
 
 function showStateVector(io::IO, psi::MPS)
     # 状態ベクトル表示

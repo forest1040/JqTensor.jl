@@ -42,9 +42,9 @@ using Test
     add!(circuit, Gate("H", 2))
     gates = JqTensor.optimize(circuit)
 
-    # 期待値
-    expect_value = expect(gates, psi0)
-    println("expect_value: $expect_value")
+    # # 期待値
+    # expect_value = expect(gates, psi0)
+    # println("expect_value: $expect_value")
 
     # ゲート適用
     psi = apply(gates, psi0)

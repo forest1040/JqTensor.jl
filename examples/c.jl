@@ -7,12 +7,11 @@ s = ITensors.siteinds("Qubit", N)
 os = [("X", 1), ("CX", 1, 2)]
 gates = ops(os, s)
 
-mpo = MPO(gates)
-print("mpo: $mpo")
+# mpo = MPO(gates)
+# print("mpo: $mpo")
 # r = ITensors.inner(ψ0', mpo, ψ0)
 # print("r: $r")
-
-ψ = ITensors.apply(mpo, ψ0; cutoff=1e-15)
+#ψ = ITensors.apply(mpo, ψ0; cutoff=1e-15)
 
 ψ = ITensors.apply(gates, ψ0; cutoff=1e-15)
 
