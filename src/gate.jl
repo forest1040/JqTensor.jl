@@ -20,5 +20,5 @@ Ry(index::Int, theta::Number) = Gate("Ry", index, (θ=theta,))
 Rz(index::Int, theta::Number) = Gate("Rz", index, (θ=theta,))
 
 # 2-Qubit gates
-Cx(control::Int, target::Int) = Gate("Cx", control, target)
-
+CX(control::Int, target::Int) = Gate("CX", control, target)
+CNOT(control::Int, target::Int) = CX(control, target)

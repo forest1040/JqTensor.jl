@@ -75,7 +75,8 @@ export State,
 include("gate.jl")
 export Gate,
     I, X, Y, Z, H, S, T, P,
-    Rx
+    Rx, Ry, Rz,
+    CX, CNOT
 
 include("state.jl")
 export State,
@@ -88,7 +89,7 @@ export Circuit,
     optimize,
     createRandomGate,
     apply,
-    expect,
+    #expect,
     showStateVector
 
 export say_hello5
