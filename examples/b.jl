@@ -14,7 +14,7 @@ s = ITensors.siteinds("Qubit", N)
 ψ0 = ITensors.productMPS(ComplexF64, s, "0")
 
 # ゲート作成
-println("CX(0, 1)")
+#println("CX(0, 1)")
 os = ITensors.OpSum()
 os += ("Rx", 1, (θ=π,)) # Juliaは1オリジン
 #os += ("CX", 1)

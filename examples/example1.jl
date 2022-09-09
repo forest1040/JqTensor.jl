@@ -9,13 +9,14 @@ psi0 = createZeroState(circuit.state.sites)
 
 # ゲート作成
 JqTensor.add!(circuit, JqTensor.H(1))
-JqTensor.add!(circuit, JqTensor.H(2))
+#JqTensor.add!(circuit, JqTensor.H(2))
 #JqTensor.add!(circuit, JqTensor.H(3))
+JqTensor.add!(circuit, JqTensor.CX(1, 2))
 gates = JqTensor.optimize(circuit)
 
-# 期待値
-expect_value = JqTensor.expect(gates, psi0)
-println("expect_value: $expect_value")
+# # 期待値
+# expect_value = JqTensor.expect(gates, psi0)
+# println("expect_value: $expect_value")
 
 # ゲート適用
 println("start apply")

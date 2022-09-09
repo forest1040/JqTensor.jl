@@ -16,19 +16,33 @@ function add!(circuit::Circuit, gate::Gate)
     push!(circuit.gate_list, gate)
 end
 
+# function optimize(circuit::Circuit)
+#     os = OpSum()
+#     gates = []
+#     for gate in circuit.gate_list
+#         #os += (gate.name, gate.index)
+#         if length(gate.data) > 0
+#             push!(gates, gate.name, gate.index, gate.data)
+#         else
+#             push!(gates, gate.name, gate.index)
+#         end
+#     end
+#     os += Tuple(gates)
+#     return MPO(ComplexF64, os, circuit.state.sites)
+# end
+
 function optimize(circuit::Circuit)
-    os = OpSum()
-    gates = []
+    os = []
     for gate in circuit.gate_list
-        #os += (gate.name, gate.index)
+        g = []
+        push!(g, gate.name)
+        push!(g, gate.index)
         if length(gate.data) > 0
-            push!(gates, gate.name, gate.index, gate.data)
-        else
-            push!(gates, gate.name, gate.index)
+            push!(g, gate.data)
         end
+        push!(os, Tuple(g))
     end
-    os += Tuple(gates)
-    return MPO(ComplexF64, os, circuit.state.sites)
+    return MPO(ops(os, circuit.state.sites))
 end
 
 # TODO: randomMPO()が正しいゲート（ユニタリ行列）を作成するか？
@@ -55,6 +69,7 @@ function apply(mpo::MPO, mps::MPS)
     return ITensors.apply(mpo, mps; cutoff=1e-15)
 end
 
+# TODO: MPO から opsに変更したため動かなくなった。。
 function expect(mpo::MPO, mps::MPS)
     return inner(mps', mpo, mps)
 end
