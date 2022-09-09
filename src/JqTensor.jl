@@ -24,7 +24,8 @@ import Base: length,
     isapprox,
     pop!,
     range,
-    clamp
+    clamp,
+    Irrational
 import LinearAlgebra: norm,
     normalize!
 import ITensors: getindex,
@@ -72,7 +73,9 @@ export State,
     Gate
 
 include("gate.jl")
-export Gate
+export Gate,
+    I, X, Y, Z, H, S, T, P,
+    Rx
 
 include("state.jl")
 export State,
