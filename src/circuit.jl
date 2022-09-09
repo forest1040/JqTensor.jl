@@ -36,6 +36,9 @@ function optimize(circuit::Circuit)
     for gate in circuit.gate_list
         g = []
         push!(g, gate.name)
+        if gate.control > 0
+            push!(g, gate.control)
+        end
         push!(g, gate.index)
         if length(gate.data) > 0
             push!(g, gate.data)

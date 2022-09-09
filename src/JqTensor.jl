@@ -76,7 +76,7 @@ include("gate.jl")
 export Gate,
     I, X, Y, Z, H, S, T, P,
     Rx, Ry, Rz,
-    CX, CNOT
+    CX, CNOT, CRx, CRy, CRz
 
 include("state.jl")
 export State,
