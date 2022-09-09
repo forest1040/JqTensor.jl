@@ -1,11 +1,12 @@
 mutable struct Gate
     name::String
     index::Int
+    # TODO: 型指定
     data::Any
 end
 Gate(name::String, index::Int) = Gate(name, index, [])
 
-# 1bit
+# 1-Qubit gates
 I(index::Int) = Gate("I", index)
 X(index::Int) = Gate("X", index)
 Y(index::Int) = Gate("Y", index)
@@ -15,5 +16,9 @@ S(index::Int) = Gate("S", index)
 T(index::Int) = Gate("T", index)
 P(index::Int) = Gate("P", index)
 Rx(index::Int, theta::Number) = Gate("Rx", index, (θ=theta,))
+Ry(index::Int, theta::Number) = Gate("Ry", index, (θ=theta,))
+Rz(index::Int, theta::Number) = Gate("Rz", index, (θ=theta,))
 
-# 2bit
+# 2-Qubit gates
+Cx(control::Int, target::Int) = Gate("Cx", control, target)
+

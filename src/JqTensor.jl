@@ -91,5 +91,8 @@ export Circuit,
     expect,
     showStateVector
 
+export say_hello5
+
+say_hello5() = println("Hello5!")
 
 end
