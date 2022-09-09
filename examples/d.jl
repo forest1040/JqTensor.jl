@@ -1,35 +1,60 @@
 using ITensors
 
 N = 3
-s = ITensors.siteinds("Qubit", N)
-ψ0 = ITensors.productMPS(s, "1")
+s = siteinds("Qubit", N)
+ψ0 = productMPS(s, "0")
+X1 = op("X", s[1])
+X3 = op("X", s[3])
+ψ1 = apply(X1, ψ0; cutoff=1e-15)
+ψ2 = apply(X3, ψ1; cutoff=1e-15)
 
-# op("CRx", s, (1, 2); θ=x)
-#os = [("X", 1), ("CRx", (θ=π,), 1, 2)]
+# 状態ベクトル表示
+V = ITensor(1.0)
+for (index, value) in enumerate(ψ2)
+    global V *= ψ2[index]
+end
+for (index, value) in enumerate(V)
+    println("|$(bitstring(index-1)[end-N+1:end])>: $(value)")
+end
 
-os = ITensors.OpSum() + ("CRz", (ϕ=π,), 1, 2)
-os2 = ITensors.OpSum() + ("CRz", 1, 2, (ϕ=π,),)
+println("-----------------------------")
 
-# println("length(os): $(length(os))")
-# println("ITensors.which_op(os[1][1]): $(ITensors.which_op(os[1][1]))")
-# println("ITensors.params(os[1][1]): $(ITensors.params(os[1][1]))")
+X1 = op([
+        0 1
+        1 0
+    ], s[1])
+X3 = op("X", s[3])
+ψ1 = apply(X1, ψ0; cutoff=1e-15)
+ψ2 = apply(X3, ψ1; cutoff=1e-15)
 
-println("os: $os")
-println("os2: $os2")
+# 状態ベクトル表示
+V = ITensor(1.0)
+for (index, value) in enumerate(ψ2)
+    global V *= ψ2[index]
+end
+for (index, value) in enumerate(V)
+    println("|$(bitstring(index-1)[end-N+1:end])>: $(value)")
+end
 
-#gates = ITensors.MPO(ComplexF64, os, s)
+println("-----------------------------")
 
-# gates = ops(os, s)
-# println("gates: $gates")
+os = [([
+            0 1
+            1 0
+        ], 1), ([
+            0 1
+            1 0
+        ], 3)]
+gates = ops(os, s)
 
-# ψ = ITensors.apply(gates, ψ0; cutoff=1e-15)
+ψ = ITensors.apply(gates, ψ0; cutoff=1e-15)
 
-# # 状態ベクトル表示
-# V = ITensor(1.0)
-# for (index, value) in enumerate(ψ)
-#     #println("$index : $(value)")
-#     global V *= ψ[index]
-# end
-# for (index, value) in enumerate(V)
-#     println("|$(bitstring(index-1)[end-N+1:end])>: $(value)")
-# end
+# 状態ベクトル表示
+V = ITensor(1.0)
+for (index, value) in enumerate(ψ)
+    #println("$index : $(value)")
+    global V *= ψ[index]
+end
+for (index, value) in enumerate(V)
+    println("|$(bitstring(index-1)[end-N+1:end])>: $(value)")
+end
