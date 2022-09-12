@@ -15,11 +15,12 @@ mutable struct DenseGate <: Gate
     name::String
     control::Int
     index::Int
-    # TODO: 型指定
-    data::Any # ::Matrix{ComplexF64}
+    data::Matrix{ComplexF64}
 end
-DenseGate(name::String, index::Int, data::Any) = DenseGate(name, 0, index, data)
-DenseGate(name::String, control::Int, index::Int, data::Any) = DenseGate(name, control, index, data)
+DenseGate(name::String, index::Int, data::Matrix{ComplexF64}) = DenseGate(name, 0, index, data)
+DenseGate(name::String, index::Int, data::Matrix{Int}) = DenseGate(name, 0, index, data)
+#DenseGate(name::String, index::Int, data::Matrix{Float}) = DenseGate(name, 0, index, data)
+#DenseGate(name::String, control::Int, index::Int, data::Matrix{ComplexF64}) = DenseGate(name, control, index, data)
 
 
 # 1-Qubit gates
@@ -38,9 +39,10 @@ Rz(index::Int, theta::Number) = CommonGate("Rz", index, (θ=theta,))
 # 2-Qubit gates
 CX(control::Int, index::Int) = CommonGate("CX", control, index)
 CNOT(control::Int, target::Int) = CX(control, target)
+SWAP(control::Int, index::Int) = CommonGate("SWAP", control, index)
 
 # TODO: ITensorsの定義から行列表示を持ってきたい
-# TODO: CRxの名前だけで、 ITensorsからopsに変換したいが、現在ではcontrolとtargetの2つ指定ができない
+# TODO: CRxの名前だけで、 ITensorsからopsに変換したいが、現在では回転角とcontrol/targetの同時指定ができない
 CRx(control::Int, target::Int, theta::Number) = DenseGate(
     "CRx",
     control,
@@ -48,8 +50,8 @@ CRx(control::Int, target::Int, theta::Number) = DenseGate(
     [
         1 0 0 0
         0 1 0 0
-        0 0 cos(θ / 2) -im*sin(θ / 2)
-        0 0 -im*sin(θ / 2) cos(θ / 2)
+        0 0 cos(θ / 2) -im*sin(theta / 2)
+        0 0 -im*sin(θ / 2) cos(theta / 2)
     ]
 )
 CRX(control::Int, target::Int, theta::Number) = CRx(control, target, theta)
@@ -61,8 +63,8 @@ CRy(control::Int, target::Int, theta::Number) = DenseGate(
     [
         1 0 0 0
         0 1 0 0
-        0 0 cos(θ / 2) -sin(θ / 2)
-        0 0 sin(θ / 2) cos(θ / 2)
+        0 0 cos(θ / 2) -sin(theta / 2)
+        0 0 sin(θ / 2) cos(theta / 2)
     ]
 )
 CRY(control::Int, target::Int, theta::Number) = CRy(control, target, theta)
@@ -74,8 +76,8 @@ CRz(control::Int, target::Int, theta::Number) = DenseGate(
     [
         1 0 0 0
         0 1 0 0
-        0 0 exp(-im * π / 2 * theta) 0
-        0 0 0 exp(im * π / 2 * theta)
+        0 0 exp(-im * theta / 2) 0
+        0 0 0 exp(im * theta / 2)
     ]
 )
 CRZ(control::Int, target::Int, theta::Number) = CRz(control, target, theta)

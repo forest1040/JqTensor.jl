@@ -1,6 +1,6 @@
 using ITensors
 
-N = 2
+N = 3
 s = ITensors.siteinds("Qubit", N)
 ψ0 = ITensors.productMPS(s, "0")
 
