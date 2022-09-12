@@ -70,7 +70,10 @@ export linkindex,
 # Types
 export State,
     Circuit,
-    Gate
+    Gate,
+    CommonGate,
+    DenseGate
+
 
 include("gate.jl")
 export Gate,

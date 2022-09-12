@@ -12,7 +12,11 @@ function Circuit(dim::Int)
     return Circuit(State(dim), Gate[])
 end
 
-function add!(circuit::Circuit, gate::Gate)
+function add!(circuit::Circuit, gate::CommonGate)
+    push!(circuit.gate_list, gate)
+end
+
+function add!(circuit::Circuit, gate::DenseGate)
     push!(circuit.gate_list, gate)
 end
 
@@ -34,16 +38,28 @@ end
 function optimize(circuit::Circuit)
     os = []
     for gate in circuit.gate_list
-        g = []
-        push!(g, gate.name)
-        if gate.control > 0
-            push!(g, gate.control)
+        if typeof(gate) == DenseGate
+            d = []
+            push!(d, gate.data)
+            if length(gate.index) > 0
+                push!(d, gate.index)
+            end
+            if length(gate.control) > 0
+                push!(d, gate.control)
+            end
+            push!(os, Tuple(d))
+        else
+            g = []
+            push!(g, gate.name)
+            if gate.control > 0
+                push!(g, gate.control)
+            end
+            push!(g, gate.index)
+            if length(gate.data) > 0
+                push!(g, gate.data)
+            end
+            push!(os, Tuple(g))
         end
-        push!(g, gate.index)
-        if length(gate.data) > 0
-            push!(g, gate.data)
-        end
-        push!(os, Tuple(g))
     end
     return ops(os, circuit.state.sites)
 end

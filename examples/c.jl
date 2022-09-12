@@ -1,10 +1,12 @@
 using ITensors
 
-N = 3
+N = 2
 s = ITensors.siteinds("Qubit", N)
 ψ0 = ITensors.productMPS(s, "0")
 
-os = [("X", 1), ("CX", 1, 2)]
+#os = [("X", 1), ("CX", 1, 2)]
+#os = [("X", 1,)]
+os = [("X", 1),("Rx", 2, (θ=2π,))]
 gates = ops(os, s)
 
 # mpo = MPO(gates)
