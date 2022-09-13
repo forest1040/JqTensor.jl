@@ -41,12 +41,13 @@ function optimize(circuit::Circuit)
         if typeof(gate) == DenseGate
             d = []
             push!(d, gate.data)
-            if length(gate.index) > 0
+            if gate.index > 0
                 push!(d, gate.index)
             end
-            if length(gate.control) > 0
+            if gate.control > 0
                 push!(d, gate.control)
             end
+            #println("DenseGate: $d")
             push!(os, Tuple(d))
         else
             g = []
