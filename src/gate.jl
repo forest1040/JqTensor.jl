@@ -2,23 +2,22 @@ abstract type Gate end
 
 mutable struct CommonGate <: Gate
     name::String
-    control::Int
-    index::Int
+    indexs::Vector{Int}
     # TODO: 型指定
     data::Any
 end
-CommonGate(name::String, index::Int) = CommonGate(name, 0, index, [])
-CommonGate(name::String, control::Int, index::Int) = CommonGate(name, control, index, [])
-CommonGate(name::String, index::Int, data::Any) = CommonGate(name, 0, index, data)
+CommonGate(name::String, index::Int) = CommonGate(name, [index], [])
+CommonGate(name::String, indexs::Vector{Int}) = CommonGate(name, indexs, [])
+CommonGate(name::String, control::Int, index::Int) = CommonGate(name, [control, index], [])
+CommonGate(name::String, index::Int, data::Any) = CommonGate(name, [index], data)
 
 mutable struct DenseGate <: Gate
     name::String
-    control::Int
-    index::Int
+    indexs::Vector{Int}
     data::Matrix{ComplexF64}
 end
-DenseGate(name::String, index::Int, data::Matrix{ComplexF64}) = DenseGate(name, 0, index, data)
-DenseGate(name::String, index::Int, data::Matrix{Int}) = DenseGate(name, 0, index, data)
+DenseGate(name::String, index::Int, data::Matrix{ComplexF64}) = DenseGate(name, [index], data)
+DenseGate(name::String, index::Int, data::Matrix{Int}) = DenseGate(name, [index], data)
 #DenseGate(name::String, index::Int, data::Matrix{Float}) = DenseGate(name, 0, index, data)
 #DenseGate(name::String, control::Int, index::Int, data::Matrix{ComplexF64}) = DenseGate(name, control, index, data)
 
@@ -45,8 +44,9 @@ SWAP(control::Int, index::Int) = CommonGate("SWAP", control, index)
 # TODO: CRxの名前だけで、 ITensorsからopsに変換したいが、現在では回転角とcontrol/targetの同時指定ができない
 CRx(control::Int, target::Int, theta::Number) = DenseGate(
     "CRx",
-    control,
-    target,
+    #[control, target],
+    # target, controlの順で追加すること 
+    [target, control],
     [
         1 0 0 0
         0 1 0 0
@@ -58,8 +58,8 @@ CRX(control::Int, target::Int, theta::Number) = CRx(control, target, theta)
 
 CRy(control::Int, target::Int, theta::Number) = DenseGate(
     "CRy",
-    control,
-    target,
+    #[control, target],
+    [target, control],
     [
         1 0 0 0
         0 1 0 0
@@ -71,8 +71,8 @@ CRY(control::Int, target::Int, theta::Number) = CRy(control, target, theta)
 
 CRz(control::Int, target::Int, theta::Number) = DenseGate(
     "CRz",
-    control,
-    target,
+    #[control, target],
+    [target, control],
     [
         1 0 0 0
         0 1 0 0
@@ -81,3 +81,12 @@ CRz(control::Int, target::Int, theta::Number) = DenseGate(
     ]
 )
 CRZ(control::Int, target::Int, theta::Number) = CRz(control, target, theta)
+
+# 3-Qubit gates
+Toffoli(index1::Int, index2::Int, index3::Int) = CommonGate("Toffoli", [index1, index2, index3])
+Toffoli(indexs::Vector{Int}) = CommonGate("Toffoli", indexs)
+CCNOT(indexs::Vector{Int}) = Toffoli(indexs)
+CCX(indexs::Vector{Int}) = Toffoli(indexs)
+
+Fredkin(indexs::Vector{Int}) = CommonGate("Fredkin", indexs)
+

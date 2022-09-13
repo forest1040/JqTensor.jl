@@ -55,8 +55,7 @@ psi0 = createZeroState(circuit.state.sites)
 #JqTensor.add!(circuit, JqTensor.X(2))
 g = JqTensor.DenseGate(
     "test",
-    0,
-    1,
+    [1],
     [
         0 1
         1 0
@@ -65,6 +64,17 @@ g = JqTensor.DenseGate(
 JqTensor.add!(circuit, g)
 #JqTensor.add!(circuit, JqTensor.I(3))
 #JqTensor.add!(circuit, JqTensor.CNOT(1, 2))
+gates = JqTensor.optimize(circuit)
+psi = JqTensor.apply(gates, psi0)
+showStateVector(psi)
+
+println("Toffoli ------------------------")
+
+circuit = Circuit(N)
+psi0 = createZeroState(circuit.state.sites)
+JqTensor.add!(circuit, JqTensor.X(1))
+JqTensor.add!(circuit, JqTensor.X(2))
+JqTensor.add!(circuit, JqTensor.Toffoli(1, 2, 3))
 gates = JqTensor.optimize(circuit)
 psi = JqTensor.apply(gates, psi0)
 showStateVector(psi)
