@@ -79,7 +79,11 @@ include("gate.jl")
 export Gate,
     I, X, Y, Z, H, S, T, P,
     Rx, Ry, Rz,
-    CX, CNOT, CRx, CRy, CRz
+    CX, CNOT, SWAP,
+    CRx, CRy, CRz,
+    CRX, CRY, CRZ,
+    Toffoli, CCNOT, CCX, Fredkin
+
 
 include("state.jl")
 export State,
@@ -91,9 +95,11 @@ export Circuit,
     add!,
     optimize,
     createRandomGate,
+    #createRandomCircuit,
     apply,
     #expect,
     showStateVector
+
 
 export say_hello5
 

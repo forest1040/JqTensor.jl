@@ -77,6 +77,11 @@ end
 #     return MPO(ComplexF64, os, circuit.state.sites)
 # end
 
+# function createRandomCircuit(dim::Int, depth::Int)
+#     state = State(dim)
+#     return ITensors.randomCircuitMPS(state.sites, linkdims=depth)
+# end
+
 function apply(mpo::MPO, mps::MPS)
     return ITensors.apply(mpo, mps; cutoff=1e-15)
 end
